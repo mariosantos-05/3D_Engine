@@ -129,6 +129,43 @@ My3DEngine/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/My3DEngine.dir/build.make CMakeFiles/My3DEngine.dir/build
 .PHONY : My3DEngine/fast
 
+#=============================================================================
+# Target rules for targets named glad
+
+# Build rule for target.
+glad: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 glad
+.PHONY : glad
+
+# fast build rule for target.
+glad/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/build
+.PHONY : glad/fast
+
+libs/glad/src/glad.o: libs/glad/src/glad.c.o
+.PHONY : libs/glad/src/glad.o
+
+# target to build an object file
+libs/glad/src/glad.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/libs/glad/src/glad.c.o
+.PHONY : libs/glad/src/glad.c.o
+
+libs/glad/src/glad.i: libs/glad/src/glad.c.i
+.PHONY : libs/glad/src/glad.i
+
+# target to preprocess a source file
+libs/glad/src/glad.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/libs/glad/src/glad.c.i
+.PHONY : libs/glad/src/glad.c.i
+
+libs/glad/src/glad.s: libs/glad/src/glad.c.s
+.PHONY : libs/glad/src/glad.s
+
+# target to generate assembly for a file
+libs/glad/src/glad.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/libs/glad/src/glad.c.s
+.PHONY : libs/glad/src/glad.c.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +199,10 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... My3DEngine"
+	@echo "... glad"
+	@echo "... libs/glad/src/glad.o"
+	@echo "... libs/glad/src/glad.i"
+	@echo "... libs/glad/src/glad.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/mario/projetos/3D_Engine-/libs/glad/include
 
 CXX_FLAGS = -std=gnu++17
 

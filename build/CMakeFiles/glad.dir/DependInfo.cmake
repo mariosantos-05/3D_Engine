@@ -8,12 +8,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mario/projetos/3D_Engine-/main.cpp" "CMakeFiles/My3DEngine.dir/main.cpp.o" "gcc" "CMakeFiles/My3DEngine.dir/main.cpp.o.d"
+  "/home/mario/projetos/3D_Engine-/libs/glad/src/glad.c" "CMakeFiles/glad.dir/libs/glad/src/glad.c.o" "gcc" "CMakeFiles/glad.dir/libs/glad/src/glad.c.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/mario/projetos/3D_Engine-/build/CMakeFiles/glad.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/mario/projetos/3D_Engine-/build
 
 # The main recursive "all" target.
 all: CMakeFiles/My3DEngine.dir/all
+all: CMakeFiles/glad.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,13 +73,14 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/My3DEngine.dir/clean
+clean: CMakeFiles/glad.dir/clean
 .PHONY : clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/My3DEngine.dir
 
 # All Build rule for target.
-CMakeFiles/My3DEngine.dir/all:
+CMakeFiles/My3DEngine.dir/all: CMakeFiles/glad.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/My3DEngine.dir/build.make CMakeFiles/My3DEngine.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/My3DEngine.dir/build.make CMakeFiles/My3DEngine.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mario/projetos/3D_Engine-/build/CMakeFiles --progress-num=1,2 "Built target My3DEngine"
@@ -86,7 +88,7 @@ CMakeFiles/My3DEngine.dir/all:
 
 # Build rule for subdir invocation for target.
 CMakeFiles/My3DEngine.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mario/projetos/3D_Engine-/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mario/projetos/3D_Engine-/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/My3DEngine.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mario/projetos/3D_Engine-/build/CMakeFiles 0
 .PHONY : CMakeFiles/My3DEngine.dir/rule
@@ -99,6 +101,32 @@ My3DEngine: CMakeFiles/My3DEngine.dir/rule
 CMakeFiles/My3DEngine.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/My3DEngine.dir/build.make CMakeFiles/My3DEngine.dir/clean
 .PHONY : CMakeFiles/My3DEngine.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/glad.dir
+
+# All Build rule for target.
+CMakeFiles/glad.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mario/projetos/3D_Engine-/build/CMakeFiles --progress-num=3,4 "Built target glad"
+.PHONY : CMakeFiles/glad.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/glad.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mario/projetos/3D_Engine-/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/glad.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mario/projetos/3D_Engine-/build/CMakeFiles 0
+.PHONY : CMakeFiles/glad.dir/rule
+
+# Convenience name for target.
+glad: CMakeFiles/glad.dir/rule
+.PHONY : glad
+
+# clean rule for target.
+CMakeFiles/glad.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/clean
+.PHONY : CMakeFiles/glad.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

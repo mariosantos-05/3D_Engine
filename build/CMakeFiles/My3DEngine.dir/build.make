@@ -94,6 +94,7 @@ My3DEngine: CMakeFiles/My3DEngine.dir/main.cpp.o
 My3DEngine: CMakeFiles/My3DEngine.dir/build.make
 My3DEngine: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 My3DEngine: /usr/lib/x86_64-linux-gnu/libGL.so
+My3DEngine: libglad.a
 My3DEngine: CMakeFiles/My3DEngine.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mario/projetos/3D_Engine-/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable My3DEngine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/My3DEngine.dir/link.txt --verbose=$(VERBOSE)

@@ -7,4 +7,7 @@ find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 
 add_executable(My3DEngine main.cpp)
-target_link_libraries(My3DEngine glfw OpenGL::GL)
+
+include_directories(${CMAKE_SOURCE_DIR}/libs/glad/include)
+add_library(glad STATIC ${CMAKE_SOURCE_DIR}/libs/glad/src/glad.c)
+target_link_libraries(My3DEngine glfw OpenGL::GL glad)
