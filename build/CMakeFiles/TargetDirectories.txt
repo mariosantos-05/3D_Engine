@@ -1,0 +1,3 @@
+/home/mario/projetos/3D_Engine-/build/CMakeFiles/My3DEngine.dir
+/home/mario/projetos/3D_Engine-/build/CMakeFiles/edit_cache.dir
+/home/mario/projetos/3D_Engine-/build/CMakeFiles/rebuild_cache.dir
