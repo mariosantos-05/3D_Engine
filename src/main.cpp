@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include "Setup.h"
+#include "Shader.h"
 
 
 // Vertex Shader source code
@@ -36,8 +37,6 @@ const char* fragmentShaderSource = R"(
     }
 )";
 
-
-//Shader MyShader(vertexShaderSource, fragmentShaderSource);
 struct Cube {
     GLuint VAO, VBO, EBO;
     
@@ -131,7 +130,6 @@ struct Cube {
     }
 };
 
-
 struct Pyramid {
     GLuint VAO, VBO, EBO;
     
@@ -214,9 +212,8 @@ struct Pyramid {
     }
 };
 
-
-#define NUM_LATITUDE_SEGMENTS 50  // Number of latitude divisions
-#define NUM_LONGITUDE_SEGMENTS 50 // Number of longitude divisions
+#define NUM_LATITUDE_SEGMENTS 30  // Number of latitude divisions
+#define NUM_LONGITUDE_SEGMENTS 30 // Number of longitude divisions
 struct Sphere {
     GLuint VAO, VBO, EBO;  // Added an EBO for element buffer object (indices)
     float radius;
@@ -297,126 +294,105 @@ struct Sphere {
         glBindVertexArray(0);
     }
 
-    void draw(GLuint shaderProgram) {
-        glUseProgram(shaderProgram);
+    void draw(const Shader& shader) {
+        shader.use();  // Activate the shader program
 
         // Draw the sphere using indexed drawing
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, NUM_LATITUDE_SEGMENTS * NUM_LONGITUDE_SEGMENTS * 6, GL_UNSIGNED_INT, 0); // 6 indices per triangle pair
+        glDrawElements(GL_TRIANGLES, NUM_LATITUDE_SEGMENTS * NUM_LONGITUDE_SEGMENTS * 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
+
 };
-
-
-
-
-
-
-
 
 int main() {
     Window win;
     if (!win.init()) return -1;
-    
-    GLFWwindow* window = win.window;  
 
-    // Compile shaders
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
+    Shader myShader(vertexShaderSource, fragmentShaderSource);
 
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    // Create shader program
-    unsigned int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    // Delete shaders after linking
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-
-
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Hide cursor & capture mouse
-
-    if (glfwRawMouseMotionSupported()) glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-
-    Sphere mySphere(0.8f);
-    Cube myCube;
-    Pyramid MyPyramid;
-
-    // Main loop
-    while (!glfwWindowShouldClose(window)) {
-        // Check for key input to close window
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            glfwSetWindowShouldClose(window, true);
-        }
-
-        // Clear buffers
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Use shader
-        glUseProgram(shaderProgram);
-
+   // Main loop
+    bool running = true;
+    while (running) {
         // Calculate delta time
-        float currentFrame = glfwGetTime();
+        float currentFrame = SDL_GetTicks() / 1000.0f;
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        processInput(window);
+        // Process events
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    running = false;
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    // Move the cursor to the center of the window
+                    SDL_WarpMouseInWindow(win.window, win.width / 2, win.height / 2);
+                    // Reset mouse position tracking
+                    lastX = win.width / 2;
+                    lastY = win.height / 2;
+                    break;
+                case SDL_MOUSEMOTION:
+                    handleMouseMotion(event.motion.xrel, event.motion.yrel);
+                    break;
+            }
+        }
+
+        // Process keyboard input
+        processInput(win.window);
+
+        // Clear the screen
+        glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        Sphere mySphere(0.8f);
+        Cube myCube;
+        Pyramid MyPyramid;
+
+
+        // Use shader
+        myShader.use();
 
         // Create the view and projection matrices
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
         // Send view and projection matrices to shader
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+        myShader.setMat4("view", glm::value_ptr(view));
+        myShader.setMat4("projection", glm::value_ptr(projection));
+        float timeInSeconds = SDL_GetTicks() / 1000.0f;
 
         // Apply transformation to the cube (separate transformation)
         glm::mat4 cubeModel = glm::mat4(1.0f);  // Identity matrix
+        cubeModel = glm::rotate(cubeModel,  timeInSeconds, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate cube
         cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.0f, 0.0f));  // Translate cube
-        cubeModel = glm::rotate(cubeModel, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));  // Rotate cube
 
         // Apply transformation to the pyramid (separate transformation)
         glm::mat4 pyramidModel = glm::mat4(1.0f);  // Identity matrix
+        pyramidModel = glm::rotate(pyramidModel,  timeInSeconds, glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate pyramid
         pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.0f, 0.0f));  // Translate pyramid
-        pyramidModel = glm::rotate(pyramidModel, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate pyramid
 
     
        // Apply any transformations to the model matrix for the sphere
         glm::mat4 Spheremodel = glm::mat4(1.0f);  // Identity matrix (no transformation)
+        Spheremodel = glm::rotate(Spheremodel,   timeInSeconds, glm::vec3(1.0f,1.0f,1.0f));
         Spheremodel = glm::translate(Spheremodel, glm::vec3(3.0f, 0.0f, 0.0f));
-        Spheremodel = glm::rotate(Spheremodel,  (float)glfwGetTime(), glm::vec3(1.0f,1.0f,1.0f));
+
+        myShader.setMat4("model", glm::value_ptr(Spheremodel));
+
+        mySphere.draw(myShader);
     
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(Spheremodel));
+        myShader.setMat4("model", glm::value_ptr(cubeModel));
 
-        mySphere.draw(shaderProgram);
-    
-
-        // Send the cube's model matrix to the shader
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(cubeModel));
-
-        // Draw the cube
         myCube.Draw();
 
-        // Send the pyramid's model matrix to the shader
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
+        myShader.setMat4("model", glm::value_ptr(pyramidModel));
 
-        // Draw the pyramid
         MyPyramid.Draw();
-
+        
         // Swap buffers
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        SDL_GL_SwapWindow(win.window);
     }
 
-    // Cleanup
-    glfwTerminate();
     return 0;
 }
