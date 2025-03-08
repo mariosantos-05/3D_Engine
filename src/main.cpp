@@ -14,7 +14,7 @@ int main() {
     Window win;
     if (!win.init()) return -1;
 
-    Shader myShader(vertexShaderSource, fragmentShaderSource);
+    Shader myShader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
    // Main loop
     bool running = true;

@@ -19,6 +19,7 @@ add_executable(Engine src/main.cpp)
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR}/libs/glad/include)
 include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/shaders)
 include_directories(${SDL2_INCLUDE_DIRS})  # Add SDL2 include directories
 
 # Add the Glad library

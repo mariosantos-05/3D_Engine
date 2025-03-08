@@ -556,11 +556,30 @@ CMakeFiles/Engine.dir/src/main.cpp.o: /home/mario/projetos/3D_Engine/src/main.cp
   /usr/include/SDL2/SDL_locale.h \
   /usr/include/SDL2/SDL_misc.h \
   /home/mario/projetos/3D_Engine/include/Shader.h \
+  /usr/include/c++/11/fstream \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc \
+  /usr/include/c++/11/sstream \
+  /usr/include/c++/11/bits/sstream.tcc \
   /home/mario/projetos/3D_Engine/include/FG.h \
   /home/mario/projetos/3D_Engine/include/Shader.h
 
 
 /home/mario/projetos/3D_Engine/include/FG.h:
+
+/usr/include/c++/11/bits/sstream.tcc:
+
+/usr/include/c++/11/bits/fstream.tcc:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h:
+
+/usr/include/c++/11/bits/codecvt.h:
+
+/usr/include/c++/11/fstream:
 
 /home/mario/projetos/3D_Engine/include/Shader.h:
 
@@ -589,6 +608,8 @@ CMakeFiles/Engine.dir/src/main.cpp.o: /home/mario/projetos/3D_Engine/src/main.cp
 /usr/include/x86_64-linux-gnu/bits/types.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/bmiintrin.h:
+
+/usr/include/c++/11/sstream:
 
 /usr/include/glm/trigonometric.hpp:
 
