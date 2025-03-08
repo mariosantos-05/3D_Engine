@@ -40,7 +40,7 @@ cmake ..
 make 
 
 # Run the engine
-./3d-engine
+./Engine
 ```
 
 ## 🎮 Controls
