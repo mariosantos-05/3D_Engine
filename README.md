@@ -2,14 +2,14 @@
 
 A custom 3D engine built using **C++, OpenGL, and SDL2**. This engine provides a foundation for rendering 3D graphics with real-time performance.
 
-## Features i hope to implement
-- **Cross-platform**: Works on Windows, Linux, and macOS
+## Features to be implemented
 - **OpenGL-based rendering**: Uses modern OpenGL for efficient 3D rendering
 - **SDL2 integration**: Handles windowing, input, and event management
-- **Custom shader support**: Load and manage GLSL shaders
 - **Camera system**: Free look & movement with keyboard and mouse
-- **Basic 3D object loading**: Supports OBJ models
 - **Lighting support**: Basic Phong shading implementation
+- **Basic 3D object loading**: Supports OBJ models
+- **Cross-platform**: Works on Windows, Linux, and macOS
+- **Custom shader support**: Load and manage GLSL shaders
 - **Frame rate control**: Adjustable FPS cap with delta time
 
 ## 📸 Preview
@@ -28,7 +28,7 @@ Ensure you have the following installed:
 ```sh
 # Clone the repository
 git clone https://github.com/mariosantos-05/3D_Engine.git
-cd 3d-engine
+cd 3d_engine
 
 # Create build directory
 mkdir build && cd build
@@ -37,9 +37,7 @@ mkdir build && cd build
 cmake ..
 
 # Build the project
-make -j$(nproc) # For Linux/macOS
-# or
-cmake --build . --config Release # For Windows
+make 
 
 # Run the engine
 ./3d-engine
@@ -50,15 +48,15 @@ cmake --build . --config Release # For Windows
 - `Mouse` - Look around
 - `Esc` - Exit the application
 
-## 📂 Project Structure
+## 📂 Desired Project Structure
 ```
 3d-engine/
 ├── assets/         # Textures, models, shaders
+├── include/        #include files
+│   ├── Shader.h    # Rendering logic
+│   ├── Setup.h     # Camera controls
 ├── src/            # Source code
 │   ├── main.cpp    # Entry point
-│   ├── Renderer.h  # Rendering logic
-│   ├── Camera.cpp  # Camera controls
-├── shaders/        # GLSL shader files
 ├── CMakeLists.txt  # Build configuration
 └── README.md       # Project documentation
 ```
@@ -73,4 +71,4 @@ This project is licensed under the **MIT License**. See `LICENSE` for details.
 
 
 ---
-Made by [Mario Santos](https://github.com/yourusername)
+Made by [Mario Santos](https://github.com/mariosantos-05)
