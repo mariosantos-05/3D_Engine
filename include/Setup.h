@@ -14,7 +14,7 @@ struct Window {
     const char* title;
 
     // Constructor to initialize the window parameters
-    Window(int w = 800, int h = 600, const char* t = "3D Cube") 
+    Window(int w = 800, int h = 600, const char* t = "3D Engine") 
         : width(w), height(h), title(t), window(nullptr), glContext(nullptr) {}
 
     // Initialize the window
