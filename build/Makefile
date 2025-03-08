@@ -166,29 +166,29 @@ libs/glad/src/glad.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/libs/glad/src/glad.c.s
 .PHONY : libs/glad/src/glad.c.s
 
-src/main.o: src/main.cpp.o
-.PHONY : src/main.o
+src/image2.o: src/image2.cpp.o
+.PHONY : src/image2.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/image2.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/image2.cpp.o
+.PHONY : src/image2.cpp.o
 
-src/main.i: src/main.cpp.i
-.PHONY : src/main.i
+src/image2.i: src/image2.cpp.i
+.PHONY : src/image2.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/image2.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/image2.cpp.i
+.PHONY : src/image2.cpp.i
 
-src/main.s: src/main.cpp.s
-.PHONY : src/main.s
+src/image2.s: src/image2.cpp.s
+.PHONY : src/image2.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/image2.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/image2.cpp.s
+.PHONY : src/image2.cpp.s
 
 # Help Target
 help:
@@ -203,9 +203,9 @@ help:
 	@echo "... libs/glad/src/glad.o"
 	@echo "... libs/glad/src/glad.i"
 	@echo "... libs/glad/src/glad.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... src/image2.o"
+	@echo "... src/image2.i"
+	@echo "... src/image2.s"
 .PHONY : help
 
 

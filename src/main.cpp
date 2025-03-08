@@ -8,6 +8,8 @@
 #include "Setup.h"
 #include "Shader.h"
 #include "FG.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 
 int main() {

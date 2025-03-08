@@ -180,8 +180,8 @@ struct Pyramid {
     }
 };
 
-#define NUM_LATITUDE_SEGMENTS 30  // Number of latitude divisions
-#define NUM_LONGITUDE_SEGMENTS 30 // Number of longitude divisions
+#define NUM_LATITUDE_SEGMENTS 80  // Number of latitude divisions
+#define NUM_LONGITUDE_SEGMENTS 80 // Number of longitude divisions
 struct Sphere {
     GLuint VAO, VBO, EBO;  // Added an EBO for element buffer object (indices)
     float radius;

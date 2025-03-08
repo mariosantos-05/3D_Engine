@@ -69,28 +69,28 @@ include CMakeFiles/Engine.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Engine.dir/flags.make
 
-CMakeFiles/Engine.dir/src/main.cpp.o: CMakeFiles/Engine.dir/flags.make
-CMakeFiles/Engine.dir/src/main.cpp.o: /home/mario/projetos/3D_Engine/src/main.cpp
-CMakeFiles/Engine.dir/src/main.cpp.o: CMakeFiles/Engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mario/projetos/3D_Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Engine.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Engine.dir/src/main.cpp.o -MF CMakeFiles/Engine.dir/src/main.cpp.o.d -o CMakeFiles/Engine.dir/src/main.cpp.o -c /home/mario/projetos/3D_Engine/src/main.cpp
+CMakeFiles/Engine.dir/src/image2.cpp.o: CMakeFiles/Engine.dir/flags.make
+CMakeFiles/Engine.dir/src/image2.cpp.o: /home/mario/projetos/3D_Engine/src/image2.cpp
+CMakeFiles/Engine.dir/src/image2.cpp.o: CMakeFiles/Engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mario/projetos/3D_Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Engine.dir/src/image2.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Engine.dir/src/image2.cpp.o -MF CMakeFiles/Engine.dir/src/image2.cpp.o.d -o CMakeFiles/Engine.dir/src/image2.cpp.o -c /home/mario/projetos/3D_Engine/src/image2.cpp
 
-CMakeFiles/Engine.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Engine.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mario/projetos/3D_Engine/src/main.cpp > CMakeFiles/Engine.dir/src/main.cpp.i
+CMakeFiles/Engine.dir/src/image2.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Engine.dir/src/image2.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mario/projetos/3D_Engine/src/image2.cpp > CMakeFiles/Engine.dir/src/image2.cpp.i
 
-CMakeFiles/Engine.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Engine.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mario/projetos/3D_Engine/src/main.cpp -o CMakeFiles/Engine.dir/src/main.cpp.s
+CMakeFiles/Engine.dir/src/image2.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Engine.dir/src/image2.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mario/projetos/3D_Engine/src/image2.cpp -o CMakeFiles/Engine.dir/src/image2.cpp.s
 
 # Object files for target Engine
 Engine_OBJECTS = \
-"CMakeFiles/Engine.dir/src/main.cpp.o"
+"CMakeFiles/Engine.dir/src/image2.cpp.o"
 
 # External object files for target Engine
 Engine_EXTERNAL_OBJECTS =
 
-Engine: CMakeFiles/Engine.dir/src/main.cpp.o
+Engine: CMakeFiles/Engine.dir/src/image2.cpp.o
 Engine: CMakeFiles/Engine.dir/build.make
 Engine: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 Engine: libglad.a
