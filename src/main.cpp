@@ -130,7 +130,6 @@ struct Cube {
     }
 };
 
-
 struct Pyramid {
     GLuint VAO, VBO, EBO;
     
@@ -213,8 +212,8 @@ struct Pyramid {
     }
 };
 
-#define NUM_LATITUDE_SEGMENTS 50  // Number of latitude divisions
-#define NUM_LONGITUDE_SEGMENTS 50 // Number of longitude divisions
+#define NUM_LATITUDE_SEGMENTS 30  // Number of latitude divisions
+#define NUM_LONGITUDE_SEGMENTS 30 // Number of longitude divisions
 struct Sphere {
     GLuint VAO, VBO, EBO;  // Added an EBO for element buffer object (indices)
     float radius;
@@ -306,37 +305,51 @@ struct Sphere {
 
 };
 
-
 int main() {
     Window win;
     if (!win.init()) return -1;
-    
-    GLFWwindow* window = win.window;  
+
     Shader myShader(vertexShaderSource, fragmentShaderSource);
 
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Hide cursor & capture mouse
+   // Main loop
+    bool running = true;
+    while (running) {
+        // Calculate delta time
+        float currentFrame = SDL_GetTicks() / 1000.0f;
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
 
-    if (glfwRawMouseMotionSupported()) glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+        // Process events
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    running = false;
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    // Move the cursor to the center of the window
+                    SDL_WarpMouseInWindow(win.window, win.width / 2, win.height / 2);
+                    // Reset mouse position tracking
+                    lastX = win.width / 2;
+                    lastY = win.height / 2;
+                    break;
+                case SDL_MOUSEMOTION:
+                    handleMouseMotion(event.motion.xrel, event.motion.yrel);
+                    break;
+            }
+        }
 
-    // Main loop
-    while (!glfwWindowShouldClose(window)) {
-        // Check for key input to close window
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
+        // Process keyboard input
+        processInput(win.window);
 
-        // Clear buffers
+        // Clear the screen
+        glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         Sphere mySphere(0.8f);
         Cube myCube;
         Pyramid MyPyramid;
 
-        // Calculate delta time
-        float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
 
-        processInput(window);
         // Use shader
         myShader.use();
 
@@ -347,22 +360,23 @@ int main() {
         // Send view and projection matrices to shader
         myShader.setMat4("view", glm::value_ptr(view));
         myShader.setMat4("projection", glm::value_ptr(projection));
+        float timeInSeconds = SDL_GetTicks() / 1000.0f;
 
         // Apply transformation to the cube (separate transformation)
         glm::mat4 cubeModel = glm::mat4(1.0f);  // Identity matrix
+        cubeModel = glm::rotate(cubeModel,  timeInSeconds, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate cube
         cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.0f, 0.0f));  // Translate cube
-        cubeModel = glm::rotate(cubeModel, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));  // Rotate cube
 
         // Apply transformation to the pyramid (separate transformation)
         glm::mat4 pyramidModel = glm::mat4(1.0f);  // Identity matrix
+        pyramidModel = glm::rotate(pyramidModel,  timeInSeconds, glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate pyramid
         pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.0f, 0.0f));  // Translate pyramid
-        pyramidModel = glm::rotate(pyramidModel, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate pyramid
 
     
        // Apply any transformations to the model matrix for the sphere
         glm::mat4 Spheremodel = glm::mat4(1.0f);  // Identity matrix (no transformation)
+        Spheremodel = glm::rotate(Spheremodel,   timeInSeconds, glm::vec3(1.0f,1.0f,1.0f));
         Spheremodel = glm::translate(Spheremodel, glm::vec3(3.0f, 0.0f, 0.0f));
-        Spheremodel = glm::rotate(Spheremodel,  (float)glfwGetTime(), glm::vec3(1.0f,1.0f,1.0f));
 
         myShader.setMat4("model", glm::value_ptr(Spheremodel));
 
@@ -373,15 +387,12 @@ int main() {
         myCube.Draw();
 
         myShader.setMat4("model", glm::value_ptr(pyramidModel));
-        
-        MyPyramid.Draw();
 
+        MyPyramid.Draw();
+        
         // Swap buffers
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        SDL_GL_SwapWindow(win.window);
     }
 
-    // Cleanup
-    glfwTerminate();
     return 0;
 }

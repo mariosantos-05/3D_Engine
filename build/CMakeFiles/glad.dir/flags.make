@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/mario/projetos/3D_Engine/libs/glad/include -I/home/mario/projetos/3D_Engine/include
+C_INCLUDES = -I/home/mario/projetos/3D_Engine/libs/glad/include -I/home/mario/projetos/3D_Engine/include -I/usr/include/SDL2
 
 C_FLAGS = -g
 
