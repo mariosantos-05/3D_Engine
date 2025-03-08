@@ -36,26 +36,55 @@ const char* fragmentShaderSource = R"(
 
 // Cube vertices (positions + colors)
 float vertices[] = {
-    // Positions         // Colors
-    -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-     0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-    -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 0.0f,
-    -0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 0.0f
+    // Positions         // Colors (R, G, B)
+    // Front face (Red)
+    -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  
+
+    // Back face (Green)
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  
+     0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  
+
+    // Left face (Blue)
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  
+    -0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  
+
+    // Right face (Yellow)
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  
+     0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  
+
+    // Top face (Magenta)
+    -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  
+     0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,  
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,  
+
+    // Bottom face (Cyan)
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,  
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,  
+     0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,  
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f  
 };
+
 
 // Cube indices for indexed drawing
 unsigned int indices[] = {
-    0, 1, 2, 2, 3, 0,
-    1, 5, 6, 6, 2, 1,
-    5, 4, 7, 7, 6, 5,
-    4, 0, 3, 3, 7, 4,
-    3, 2, 6, 6, 7, 3,
-    4, 5, 1, 1, 0, 4
+    0, 1, 2, 2, 3, 0,  // Front face
+    4, 5, 6, 6, 7, 4,  // Back face
+    8, 9,10,10,11, 8,  // Left face
+    12,13,14,14,15,12, // Right face
+    16,17,18,18,19,16, // Top face
+    20,21,22,22,23,20  // Bottom face
 };
+
 
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
