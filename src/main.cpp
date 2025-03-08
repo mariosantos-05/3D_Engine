@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include "Setup.h"
+#include "Shader.h"
 
 
 // Vertex Shader source code
@@ -36,8 +37,6 @@ const char* fragmentShaderSource = R"(
     }
 )";
 
-
-//Shader MyShader(vertexShaderSource, fragmentShaderSource);
 struct Cube {
     GLuint VAO, VBO, EBO;
     
@@ -214,7 +213,6 @@ struct Pyramid {
     }
 };
 
-
 #define NUM_LATITUDE_SEGMENTS 50  // Number of latitude divisions
 #define NUM_LONGITUDE_SEGMENTS 50 // Number of longitude divisions
 struct Sphere {
@@ -297,21 +295,16 @@ struct Sphere {
         glBindVertexArray(0);
     }
 
-    void draw(GLuint shaderProgram) {
-        glUseProgram(shaderProgram);
+    void draw(const Shader& shader) {
+        shader.use();  // Activate the shader program
 
         // Draw the sphere using indexed drawing
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, NUM_LATITUDE_SEGMENTS * NUM_LONGITUDE_SEGMENTS * 6, GL_UNSIGNED_INT, 0); // 6 indices per triangle pair
+        glDrawElements(GL_TRIANGLES, NUM_LATITUDE_SEGMENTS * NUM_LONGITUDE_SEGMENTS * 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
+
 };
-
-
-
-
-
-
 
 
 int main() {
@@ -319,49 +312,24 @@ int main() {
     if (!win.init()) return -1;
     
     GLFWwindow* window = win.window;  
-
-    // Compile shaders
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    // Create shader program
-    unsigned int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    // Delete shaders after linking
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-
+    Shader myShader(vertexShaderSource, fragmentShaderSource);
 
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Hide cursor & capture mouse
 
     if (glfwRawMouseMotionSupported()) glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-    Sphere mySphere(0.8f);
-    Cube myCube;
-    Pyramid MyPyramid;
-
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         // Check for key input to close window
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            glfwSetWindowShouldClose(window, true);
-        }
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
 
         // Clear buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Use shader
-        glUseProgram(shaderProgram);
+        Sphere mySphere(0.8f);
+        Cube myCube;
+        Pyramid MyPyramid;
 
         // Calculate delta time
         float currentFrame = glfwGetTime();
@@ -369,14 +337,16 @@ int main() {
         lastFrame = currentFrame;
 
         processInput(window);
+        // Use shader
+        myShader.use();
 
         // Create the view and projection matrices
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
         // Send view and projection matrices to shader
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+        myShader.setMat4("view", glm::value_ptr(view));
+        myShader.setMat4("projection", glm::value_ptr(projection));
 
         // Apply transformation to the cube (separate transformation)
         glm::mat4 cubeModel = glm::mat4(1.0f);  // Identity matrix
@@ -393,22 +363,17 @@ int main() {
         glm::mat4 Spheremodel = glm::mat4(1.0f);  // Identity matrix (no transformation)
         Spheremodel = glm::translate(Spheremodel, glm::vec3(3.0f, 0.0f, 0.0f));
         Spheremodel = glm::rotate(Spheremodel,  (float)glfwGetTime(), glm::vec3(1.0f,1.0f,1.0f));
+
+        myShader.setMat4("model", glm::value_ptr(Spheremodel));
+
+        mySphere.draw(myShader);
     
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(Spheremodel));
+        myShader.setMat4("model", glm::value_ptr(cubeModel));
 
-        mySphere.draw(shaderProgram);
-    
-
-        // Send the cube's model matrix to the shader
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(cubeModel));
-
-        // Draw the cube
         myCube.Draw();
 
-        // Send the pyramid's model matrix to the shader
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
-
-        // Draw the pyramid
+        myShader.setMat4("model", glm::value_ptr(pyramidModel));
+        
         MyPyramid.Draw();
 
         // Swap buffers
