@@ -6,8 +6,12 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 
-add_executable(My3DEngine main.cpp)
+add_executable(Engine src/main.cpp)
 
 include_directories(${CMAKE_SOURCE_DIR}/libs/glad/include)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+
 add_library(glad STATIC ${CMAKE_SOURCE_DIR}/libs/glad/src/glad.c)
-target_link_libraries(My3DEngine glfw OpenGL::GL glad)
+
+target_link_libraries(Engine glfw OpenGL::GL glad)

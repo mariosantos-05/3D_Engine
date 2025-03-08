@@ -73,15 +73,15 @@ CMakeFiles/glad.dir/libs/glad/src/glad.c.o: CMakeFiles/glad.dir/flags.make
 CMakeFiles/glad.dir/libs/glad/src/glad.c.o: /home/mario/projetos/3D_Engine-/libs/glad/src/glad.c
 CMakeFiles/glad.dir/libs/glad/src/glad.c.o: CMakeFiles/glad.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mario/projetos/3D_Engine-/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/glad.dir/libs/glad/src/glad.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/glad.dir/libs/glad/src/glad.c.o -MF CMakeFiles/glad.dir/libs/glad/src/glad.c.o.d -o CMakeFiles/glad.dir/libs/glad/src/glad.c.o -c /home/mario/projetos/3D_Engine-/libs/glad/src/glad.c
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/glad.dir/libs/glad/src/glad.c.o -MF CMakeFiles/glad.dir/libs/glad/src/glad.c.o.d -o CMakeFiles/glad.dir/libs/glad/src/glad.c.o -c /home/mario/projetos/3D_Engine-/libs/glad/src/glad.c
 
 CMakeFiles/glad.dir/libs/glad/src/glad.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/glad.dir/libs/glad/src/glad.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mario/projetos/3D_Engine-/libs/glad/src/glad.c > CMakeFiles/glad.dir/libs/glad/src/glad.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mario/projetos/3D_Engine-/libs/glad/src/glad.c > CMakeFiles/glad.dir/libs/glad/src/glad.c.i
 
 CMakeFiles/glad.dir/libs/glad/src/glad.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/glad.dir/libs/glad/src/glad.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mario/projetos/3D_Engine-/libs/glad/src/glad.c -o CMakeFiles/glad.dir/libs/glad/src/glad.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mario/projetos/3D_Engine-/libs/glad/src/glad.c -o CMakeFiles/glad.dir/libs/glad/src/glad.c.s
 
 # Object files for target glad
 glad_OBJECTS = \
