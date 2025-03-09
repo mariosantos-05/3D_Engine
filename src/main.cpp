@@ -109,7 +109,19 @@ int main() {
         Spheremodel = glm::translate(Spheremodel, glm::vec3(3.0f, 0.0f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(Spheremodel));
         mySphere.draw(myShader);
+
+        // Get the uniform locations for model, view, and projection matrices
+        int modelLoc = myShader.getUniformLocation("model");
+        int viewLoc = myShader.getUniformLocation("view");
+        int projLoc = myShader.getUniformLocation("projection");
+
+        // Set the matrix uniforms
     
+
+        // Set additional uniforms (like light position, view position, light color)
+        myShader.setVec3("lightPos", glm::vec3(-6.2f, 1.0f, 2.0f));
+        myShader.setVec3("viewPos", cameraPos);
+        myShader.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
         
         // Swap buffers
