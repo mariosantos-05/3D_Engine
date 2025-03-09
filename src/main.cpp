@@ -9,6 +9,7 @@
 #include "Shader.h"
 #include "FG.h"
 #include "Texture.h"
+#include "Grid.h"
 
 
 int main() {
@@ -16,7 +17,14 @@ int main() {
     if (!win.init()) return -1;
 
     Shader myShader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
+    Shader gridShader("shaders/grid_vertex.glsl", "shaders/grid_fragment.glsl");
+    // Create grids in different planes
+    Grid grid(1000.0f, 1.0f, Grid::XZ_PLANE); // X-Z plane
 
+
+    glEnable(GL_DEPTH_TEST); // Enable depth testing
+glEnable(GL_BLEND);      // Enable blending
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Set blending function
 
     unsigned int cubeTexture = loadTexture("assets/wood.png");
     if (cubeTexture == 0) {
@@ -82,6 +90,9 @@ int main() {
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
+
+
+
         // Send view and projection matrices to shader
         myShader.setMat4("view", glm::value_ptr(view));
         myShader.setMat4("projection", glm::value_ptr(projection));
@@ -136,6 +147,8 @@ int main() {
     // Set the view position
     myShader.setVec3("viewPos", cameraPos);
 
+        // Setting up a grid on the viewport
+        grid.Draw(gridShader, view, projection);
         
         // Swap buffers
         SDL_GL_SwapWindow(win.window);
