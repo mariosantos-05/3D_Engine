@@ -100,23 +100,23 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Set blending function
 
         // Apply transformation to the cube (separate transformation)
         glm::mat4 cubeModel = glm::mat4(1.0f);  // Identity matrix
-        cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.0f, 0.0f));  // Translate cube
         cubeModel = glm::rotate(cubeModel,  timeInSeconds, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate cube
+        cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.5f, 0.0f));  // Translate cube
         myShader.setMat4("model", glm::value_ptr(cubeModel));
         myCube.Draw(myShader);
 
         // Apply transformation to the pyramid (separate transformation)
         glm::mat4 pyramidModel = glm::mat4(1.0f);  // Identity matrix
-        pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.0f, 0.0f));  // Translate pyramid
         pyramidModel = glm::rotate(pyramidModel,  timeInSeconds, glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate pyramid
+        pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.5f, 0.0f));  // Translate pyramid
         myShader.setMat4("model", glm::value_ptr(pyramidModel));
         MyPyramid.Draw(myShader);
 
     
        // Apply any transformations to the model matrix for the sphere
         glm::mat4 Spheremodel = glm::mat4(1.0f);  // Identity matrix (no transformation)
-        Spheremodel = glm::translate(Spheremodel, glm::vec3(3.0f, 0.0f, 0.0f));
         Spheremodel = glm::rotate(Spheremodel,   timeInSeconds, glm::vec3(1.0f,1.0f,1.0f));
+        Spheremodel = glm::translate(Spheremodel, glm::vec3(3.0f, 0.5f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(Spheremodel));
         mySphere.draw(myShader);
     // Define the number of lights
@@ -124,8 +124,8 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Set blending function
 
     // Light positions and colors
     glm::vec3 lightPositions[NR_LIGHTS] = {
-        glm::vec3(-6.2f, 1.0f, 2.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f)
+        glm::vec3(-6.2f, 3.0f, 2.0f),
+        glm::vec3(6.0f, -2.0f, 0.0f)
     };
 
     glm::vec3 lightColors[NR_LIGHTS] = {
