@@ -4,42 +4,42 @@
 #include <vector>
 #include "Shader.h"
 
-
 struct Cube {
     GLuint VAO, VBO, EBO;
-    
+    GLuint textureID; // Texture ID for the cube
+
     std::vector<float> vertices = {
-        // Positions          // Colors
+        // Positions          // Colors           // Texture Coords
         // Front face (Red)
-        -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  
+        -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,  
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,  
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,  
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  0.0f, 1.0f,  
         // Back face (Green)
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  
-         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,  
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,  
+         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,  
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  1.0f, 1.0f,  
         // Left face (Blue)
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  
-        -0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f,  
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,  
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f,  
+        -0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  0.0f, 1.0f,  
         // Right face (Yellow)
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  
-         0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  1.0f, 0.0f,  
+         0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  0.0f, 0.0f,  
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f,  
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  1.0f, 1.0f,  
         // Top face (Magenta)
-        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  
-         0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,  
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,  
+        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  0.0f, 1.0f,  
+         0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,  1.0f, 1.0f,  
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,  1.0f, 0.0f,  
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,  0.0f, 0.0f,  
         // Bottom face (Cyan)
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,  
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,  
-         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,  
-        -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f  
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,  1.0f, 1.0f,  
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,  0.0f, 1.0f,  
+         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,  0.0f, 0.0f,  
+        -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,  1.0f, 0.0f  
     };
 
     std::vector<unsigned int> indices = {
@@ -54,7 +54,7 @@ struct Cube {
     glm::mat4 model = glm::mat4(1.0f); // Identity matrix
 
     // Constructor: Creates VAO, VBO, and EBO
-    Cube() {
+    Cube(GLuint textureID) : textureID(textureID) {
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
@@ -70,22 +70,31 @@ struct Cube {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
         // Position attribute (location = 0 in shader)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
 
         // Color attribute (location = 1 in shader)
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
+
+        // Texture coordinate attribute (location = 2 in shader)
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
 
         glBindVertexArray(0);
     }
 
-     // Translation method (updates the model matrix)
+    // Translation method (updates the model matrix)
     void Translate(float x, float y, float z) {
         model = glm::translate(model, glm::vec3(x, y, z));  // Apply translation to model matrix
     }
 
-    void Draw() {
+    // Draw method (binds texture and draws the cube)
+    void Draw(Shader& shader) {
+        glActiveTexture(GL_TEXTURE0); // Activate texture unit 0
+        glBindTexture(GL_TEXTURE_2D, textureID); // Bind the cube's texture
+        shader.setInt("texture1", 0); // Tell the shader to use texture unit 0
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     }
@@ -97,33 +106,33 @@ struct Cube {
         glDeleteBuffers(1, &EBO);
     }
 };
-
 struct Pyramid {
     GLuint VAO, VBO, EBO;
-    
+    GLuint textureID; // Texture ID for the pyramid
+
     std::vector<float> vertices = {
-        // Positions           // Colors
+        // Positions           // Colors           // Texture Coords
         // Base face (Gray)
-        -0.5f, -0.5f, -0.5f,  0.5f, 0.5f, 0.5f,  // Bottom-left
-         0.5f, -0.5f, -0.5f,  0.5f, 0.5f, 0.5f,  // Bottom-right
-         0.5f, -0.5f,  0.5f,  0.5f, 0.5f, 0.5f,  // Top-right
-        -0.5f, -0.5f,  0.5f,  0.5f, 0.5f, 0.5f,  // Top-left
+        -0.5f, -0.5f, -0.5f,  0.5f, 0.5f, 0.5f,  0.0f, 0.0f,  // Bottom-left
+         0.5f, -0.5f, -0.5f,  0.5f, 0.5f, 0.5f,  1.0f, 0.0f,  // Bottom-right
+         0.5f, -0.5f,  0.5f,  0.5f, 0.5f, 0.5f,  1.0f, 1.0f,  // Top-right
+        -0.5f, -0.5f,  0.5f,  0.5f, 0.5f, 0.5f,  0.0f, 1.0f,  // Top-left
         // Front face (Red)
-        0.0f,  0.5f,  0.0f,  1.0f, 0.0f, 0.0f,  // Apex
-        -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  // Bottom-left
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  // Bottom-right
+        0.0f,  0.5f,  0.0f,  1.0f, 0.0f, 0.0f,  0.5f, 1.0f,  // Apex
+        -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,  // Bottom-left
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,  // Bottom-right
         // Right face (Green)
-        0.0f,  0.5f,  0.0f,  0.0f, 1.0f, 0.0f,  // Apex
-         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  // Bottom-right
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  // Bottom-left
+        0.0f,  0.5f,  0.0f,  0.0f, 1.0f, 0.0f,  0.5f, 1.0f,  // Apex
+         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,  0.0f, 0.0f,  // Bottom-right
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,  // Bottom-left
         // Back face (Blue)
-        0.0f,  0.5f,  0.0f,  0.0f, 0.0f, 1.0f,  // Apex
-         0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  // Bottom-right
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  // Bottom-left
+        0.0f,  0.5f,  0.0f,  0.0f, 0.0f, 1.0f,  0.5f, 1.0f,  // Apex
+         0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f,  // Bottom-right
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  1.0f, 0.0f,  // Bottom-left
         // Left face (Yellow)
-        0.0f,  0.5f,  0.0f,  1.0f, 1.0f, 0.0f,  // Apex
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  // Bottom-left
-        -0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  // Bottom-right
+        0.0f,  0.5f,  0.0f,  1.0f, 1.0f, 0.0f,  0.5f, 1.0f,  // Apex
+        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,  0.0f, 0.0f,  // Bottom-left
+        -0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 0.0f,  1.0f, 0.0f,  // Bottom-right
     };
 
     std::vector<unsigned int> indices = {
@@ -140,7 +149,7 @@ struct Pyramid {
     };
 
     // Constructor: Creates VAO, VBO, and EBO
-    Pyramid() {
+    Pyramid(GLuint textureID) : textureID(textureID) {
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
@@ -156,18 +165,26 @@ struct Pyramid {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
         // Position attribute (location = 0 in shader)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
 
         // Color attribute (location = 1 in shader)
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
+
+        // Texture coordinate attribute (location = 2 in shader)
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
 
         glBindVertexArray(0);
     }
 
     // Draw function
-    void Draw() {
+    void Draw(Shader& shader) {
+        glActiveTexture(GL_TEXTURE0); // Activate texture unit 0
+        glBindTexture(GL_TEXTURE_2D, textureID); // Bind the pyramid's texture
+        shader.setInt("texture1", 0); // Tell the shader to use texture unit 0
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     }
@@ -180,89 +197,103 @@ struct Pyramid {
     }
 };
 
-#define NUM_LATITUDE_SEGMENTS 30  // Number of latitude divisions
-#define NUM_LONGITUDE_SEGMENTS 30 // Number of longitude divisions
+#define NUM_LATITUDE_SEGMENTS 80  // Number of latitude divisions
+#define NUM_LONGITUDE_SEGMENTS 80 // Number of longitude divisions
 struct Sphere {
-    GLuint VAO, VBO, EBO;  // Added an EBO for element buffer object (indices)
+    GLuint VAO, VBO, EBO;
+    GLuint textureID; // Texture ID for the sphere
     float radius;
 
-    Sphere(float r) : radius(r) {
+    Sphere(float r, GLuint textureID) : radius(r), textureID(textureID) {
         setupSphere();
     }
 
     void setupSphere() {
-        std::vector<glm::vec3> vertices;
+        std::vector<float> vertices; // Interleaved vertex data: position, color, texture coordinates
         std::vector<GLuint> indices;
-
+    
         // Create vertices for the sphere using spherical coordinates
         for (int i = 0; i <= NUM_LATITUDE_SEGMENTS; ++i) {
             float phi = glm::radians(i * 180.0f / NUM_LATITUDE_SEGMENTS); // Polar angle
             for (int j = 0; j <= NUM_LONGITUDE_SEGMENTS; ++j) {
                 float theta = glm::radians(j * 360.0f / NUM_LONGITUDE_SEGMENTS); // Azimuthal angle
-
+    
                 // Convert spherical coordinates to Cartesian coordinates
                 float x = radius * sin(phi) * cos(theta);
                 float y = radius * sin(phi) * sin(theta);
                 float z = radius * cos(phi);
-
-                // Calculate color based on the spherical coordinates (phi, theta)
-                float red = (sin(phi) + 1.0f) / 2.0f;  // Color variation based on latitude (phi)
-                float green = (cos(theta) + 1.0f) / 2.0f;  // Color variation based on longitude (theta)
-                float blue = (sin(theta) + 1.0f) / 2.0f;  // Another variation for a unique effect
-
-                glm::vec3 color(red, green, blue);  // Color based on spherical coordinates
-
-                // Add the vertex position and its color
-                vertices.push_back(glm::vec3(x, y, z));  // Position
-                vertices.push_back(color);  // Color
+    
+                // Calculate texture coordinates
+                float s = (float)j / NUM_LONGITUDE_SEGMENTS;
+                float t = (float)i / NUM_LATITUDE_SEGMENTS;
+    
+                // Add the vertex position, color, and texture coordinates
+                vertices.push_back(x); // Position (x)
+                vertices.push_back(y); // Position (y)
+                vertices.push_back(z); // Position (z)
+    
+                vertices.push_back(1.0f); // Color (r)
+                vertices.push_back(1.0f); // Color (g)
+                vertices.push_back(1.0f); // Color (b)
+    
+                vertices.push_back(s); // Texture coordinate (s)
+                vertices.push_back(t); // Texture coordinate (t)
             }
         }
-
+    
         // Create indices for the sphere's faces (using triangles)
         for (int i = 0; i < NUM_LATITUDE_SEGMENTS; ++i) {
             for (int j = 0; j < NUM_LONGITUDE_SEGMENTS; ++j) {
                 int first = i * (NUM_LONGITUDE_SEGMENTS + 1) + j;
                 int second = first + NUM_LONGITUDE_SEGMENTS + 1;
-
+    
                 // Create two triangles for each segment (top and bottom triangles)
                 indices.push_back(first);
                 indices.push_back(second);
                 indices.push_back(first + 1);
-
+    
                 indices.push_back(second);
                 indices.push_back(second + 1);
                 indices.push_back(first + 1);
             }
         }
-
+    
         // Create VAO, VBO, and EBO
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
-
+    
         glBindVertexArray(VAO);
-
+    
         // Vertex buffer
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3) * 2, &vertices[0], GL_STATIC_DRAW);
-
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+    
         // Element buffer
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
-
-        // Vertex position attribute
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3) * 2, (void*)0);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+    
+        // Vertex position attribute (location = 0 in shader)
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
-
-        // Vertex color attribute
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3) * 2, (void*)(sizeof(glm::vec3)));
+    
+        // Vertex color attribute (location = 1 in shader)
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
-
+    
+        // Texture coordinate attribute (location = 2 in shader)
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+    
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
     }
 
     void draw(const Shader& shader) {
+        glActiveTexture(GL_TEXTURE0); // Activate texture unit 0
+        glBindTexture(GL_TEXTURE_2D, textureID); // Bind the sphere's texture
+        shader.setInt("texture1", 0); // Tell the shader to use texture unit 0
+
         shader.use();  // Activate the shader program
 
         // Draw the sphere using indexed drawing
@@ -270,5 +301,4 @@ struct Sphere {
         glDrawElements(GL_TRIANGLES, NUM_LATITUDE_SEGMENTS * NUM_LONGITUDE_SEGMENTS * 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
-
 };

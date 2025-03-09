@@ -8,13 +8,33 @@
 #include "Setup.h"
 #include "Shader.h"
 #include "FG.h"
+#include "Texture.h"
 
 
 int main() {
     Window win;
     if (!win.init()) return -1;
 
-    Shader myShader(vertexShaderSource, fragmentShaderSource);
+    Shader myShader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
+
+
+    unsigned int cubeTexture = loadTexture("assets/wood.png");
+    if (cubeTexture == 0) {
+        std::cerr << "Failed to load texture, exiting..." << std::endl;
+        return -1;
+    }
+
+    unsigned int pyramidTexture = loadTexture("assets/pedras.jpg");
+    if (pyramidTexture == 0) {
+        std::cerr << "Failed to load texture, exiting..." << std::endl;
+        return -1;
+    }
+
+    unsigned int SphereTexture = loadTexture("assets/metal.png");
+    if (SphereTexture == 0) {
+        std::cerr << "Failed to load texture, exiting..." << std::endl;
+        return -1;
+    }
 
    // Main loop
     bool running = true;
@@ -50,13 +70,14 @@ int main() {
         // Clear the screen
         glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        Sphere mySphere(0.8f);
-        Cube myCube;
-        Pyramid MyPyramid;
-
+        Cube myCube(cubeTexture);
+        Sphere mySphere(0.8f, SphereTexture);
+        Pyramid MyPyramid(pyramidTexture);
 
         // Use shader
         myShader.use();
+
+
 
         // Create the view and projection matrices
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -71,29 +92,25 @@ int main() {
         glm::mat4 cubeModel = glm::mat4(1.0f);  // Identity matrix
         cubeModel = glm::rotate(cubeModel,  timeInSeconds, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate cube
         cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.0f, 0.0f));  // Translate cube
+        myShader.setMat4("model", glm::value_ptr(cubeModel));
+        myCube.Draw(myShader);
 
         // Apply transformation to the pyramid (separate transformation)
         glm::mat4 pyramidModel = glm::mat4(1.0f);  // Identity matrix
         pyramidModel = glm::rotate(pyramidModel,  timeInSeconds, glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate pyramid
         pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.0f, 0.0f));  // Translate pyramid
+        myShader.setMat4("model", glm::value_ptr(pyramidModel));
+        MyPyramid.Draw(myShader);
 
     
        // Apply any transformations to the model matrix for the sphere
         glm::mat4 Spheremodel = glm::mat4(1.0f);  // Identity matrix (no transformation)
         Spheremodel = glm::rotate(Spheremodel,   timeInSeconds, glm::vec3(1.0f,1.0f,1.0f));
         Spheremodel = glm::translate(Spheremodel, glm::vec3(3.0f, 0.0f, 0.0f));
-
         myShader.setMat4("model", glm::value_ptr(Spheremodel));
-
         mySphere.draw(myShader);
     
-        myShader.setMat4("model", glm::value_ptr(cubeModel));
 
-        myCube.Draw();
-
-        myShader.setMat4("model", glm::value_ptr(pyramidModel));
-
-        MyPyramid.Draw();
         
         // Swap buffers
         SDL_GL_SwapWindow(win.window);

@@ -4,42 +4,22 @@
 #include <glad/glad.h> // Make sure to include GLAD before OpenGL
 #include <string>
 #include <iostream>
-
-
-// Vertex Shader source code
-const char* vertexShaderSource = R"(
-    #version 330 core
-    layout (location = 0) in vec3 aPos;
-    layout (location = 1) in vec3 aColor;
-
-    out vec3 FragColor;
-
-    uniform mat4 model;
-    uniform mat4 view;
-    uniform mat4 projection;
-
-    void main() {
-        gl_Position = projection * view * model * vec4(aPos, 1.0);
-        FragColor = aColor;
-    }
-)";
-
-const char* fragmentShaderSource = R"(
-    #version 330 core
-    in vec3 FragColor;  // Input color from vertex shader
-    out vec4 FragColorOut;  // Output color to the framebuffer
-
-    void main() {
-        FragColorOut = vec4(FragColor, 1.0);  // Set output color
-    }
-)";
+#include <fstream>
+#include <sstream>
 
 class Shader {
 public:
     unsigned int ID;
 
     // Constructor
-    Shader(const char* vertexSource, const char* fragmentSource) {
+    Shader(const std::string& vertexPath, const std::string& fragmentPath) {
+        // Read shader source code from files
+        std::string vertexCode = readFile(vertexPath);
+        std::string fragmentCode = readFile(fragmentPath);
+
+        const char* vertexSource = vertexCode.c_str();
+        const char* fragmentSource = fragmentCode.c_str();
+
         unsigned int vertexShader = compileShader(vertexSource, GL_VERTEX_SHADER);
         unsigned int fragmentShader = compileShader(fragmentSource, GL_FRAGMENT_SHADER);
 
@@ -56,15 +36,24 @@ public:
     // Activate the shader
     void use() const { glUseProgram(ID); }
 
-
     void setMat4(const std::string& name, const float* value) const {
         GLint location = glGetUniformLocation(ID, name.c_str());
         if (location == -1) {
             std::cerr << "Error: Uniform '" << name << "' not found in shader!" << std::endl;
             return;
         }
-    glUniformMatrix4fv(location, 1, GL_FALSE, value);
-}
+        glUniformMatrix4fv(location, 1, GL_FALSE, value);
+    }
+
+
+    void setInt(const std::string& name, int value) const {
+        GLint location = glGetUniformLocation(ID, name.c_str());
+        if (location == -1) {
+            std::cerr << "Error: Uniform '" << name << "' not found in shader!" << std::endl;
+            return;
+        }
+        glUniform1i(location, value);
+    }
 
 
     ~Shader() {
@@ -96,6 +85,18 @@ private:
                 std::cerr << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n";
             }
         }
+    }
+
+    std::string readFile(const std::string& filePath) {
+        std::ifstream file(filePath);
+        if (!file.is_open()) {
+            std::cerr << "ERROR: Failed to open file: " << filePath << std::endl;
+            return "";
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
     }
 };
 
