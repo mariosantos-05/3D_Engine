@@ -19,7 +19,7 @@ int main() {
     Shader myShader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
     Shader gridShader("shaders/grid_vertex.glsl", "shaders/grid_fragment.glsl");
     // Create grids in different planes
-    Grid grid(1000.0f, 1.0f, Grid::XZ_PLANE); // X-Z plane
+    Grid grid(500.0f, 1.0f, Grid::XZ_PLANE); // X-Z plane
 
 
     glEnable(GL_DEPTH_TEST); // Enable depth testing
