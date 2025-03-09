@@ -35,6 +35,9 @@ int main() {
         std::cerr << "Failed to load texture, exiting..." << std::endl;
         return -1;
     }
+    Cube myCube(cubeTexture);
+    Sphere mySphere(0.8f, SphereTexture);
+    Pyramid MyPyramid(pyramidTexture);
 
    // Main loop
     bool running = true;
@@ -70,13 +73,9 @@ int main() {
         // Clear the screen
         glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        Cube myCube(cubeTexture);
-        Sphere mySphere(0.8f, SphereTexture);
-        Pyramid MyPyramid(pyramidTexture);
 
         // Use shader
         myShader.use();
-
 
 
         // Create the view and projection matrices
@@ -90,38 +89,52 @@ int main() {
 
         // Apply transformation to the cube (separate transformation)
         glm::mat4 cubeModel = glm::mat4(1.0f);  // Identity matrix
-        cubeModel = glm::rotate(cubeModel,  timeInSeconds, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate cube
         cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.0f, 0.0f));  // Translate cube
+        cubeModel = glm::rotate(cubeModel,  timeInSeconds, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate cube
         myShader.setMat4("model", glm::value_ptr(cubeModel));
         myCube.Draw(myShader);
 
         // Apply transformation to the pyramid (separate transformation)
         glm::mat4 pyramidModel = glm::mat4(1.0f);  // Identity matrix
-        pyramidModel = glm::rotate(pyramidModel,  timeInSeconds, glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate pyramid
         pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.0f, 0.0f));  // Translate pyramid
+        pyramidModel = glm::rotate(pyramidModel,  timeInSeconds, glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate pyramid
         myShader.setMat4("model", glm::value_ptr(pyramidModel));
         MyPyramid.Draw(myShader);
 
     
        // Apply any transformations to the model matrix for the sphere
         glm::mat4 Spheremodel = glm::mat4(1.0f);  // Identity matrix (no transformation)
-        Spheremodel = glm::rotate(Spheremodel,   timeInSeconds, glm::vec3(1.0f,1.0f,1.0f));
         Spheremodel = glm::translate(Spheremodel, glm::vec3(3.0f, 0.0f, 0.0f));
+        Spheremodel = glm::rotate(Spheremodel,   timeInSeconds, glm::vec3(1.0f,1.0f,1.0f));
         myShader.setMat4("model", glm::value_ptr(Spheremodel));
         mySphere.draw(myShader);
+    // Define the number of lights
+    const int NR_LIGHTS = 2;
 
-        // Get the uniform locations for model, view, and projection matrices
-        int modelLoc = myShader.getUniformLocation("model");
-        int viewLoc = myShader.getUniformLocation("view");
-        int projLoc = myShader.getUniformLocation("projection");
+    // Light positions and colors
+    glm::vec3 lightPositions[NR_LIGHTS] = {
+        glm::vec3(-6.2f, 1.0f, 2.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f)
+    };
 
-        // Set the matrix uniforms
-    
+    glm::vec3 lightColors[NR_LIGHTS] = {
+        glm::vec3(1.0f, 1.0f, 1.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f)
+    };
 
-        // Set additional uniforms (like light position, view position, light color)
-        myShader.setVec3("lightPos", glm::vec3(-6.2f, 1.0f, 2.0f));
-        myShader.setVec3("viewPos", cameraPos);
-        myShader.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+    // In your main loop, after using the shader
+    myShader.use();
+
+    // Set the light properties
+    for (int i = 0; i < NR_LIGHTS; i++) {
+        std::string lightPosStr = "lights[" + std::to_string(i) + "].position";
+        std::string lightColorStr = "lights[" + std::to_string(i) + "].color";
+        myShader.setVec3(lightPosStr, lightPositions[i]);
+        myShader.setVec3(lightColorStr, lightColors[i]);
+    }
+
+    // Set the view position
+    myShader.setVec3("viewPos", cameraPos);
 
         
         // Swap buffers
