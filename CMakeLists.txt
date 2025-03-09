@@ -14,7 +14,7 @@ find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)  
     
 # Add your executable
-add_executable(Engine src/image2.cpp)
+add_executable(Engine src/main.cpp)
 
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR}/libs/glad/include)

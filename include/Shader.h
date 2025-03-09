@@ -45,6 +45,17 @@ public:
         glUniformMatrix4fv(location, 1, GL_FALSE, value);
     }
 
+
+    void setInt(const std::string& name, int value) const {
+        GLint location = glGetUniformLocation(ID, name.c_str());
+        if (location == -1) {
+            std::cerr << "Error: Uniform '" << name << "' not found in shader!" << std::endl;
+            return;
+        }
+        glUniform1i(location, value);
+    }
+
+
     ~Shader() {
         glDeleteProgram(ID);
     }
