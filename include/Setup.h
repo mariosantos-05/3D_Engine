@@ -78,8 +78,8 @@ struct Window {
 };
 
 // Global variables for camera movement and orientation
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);  // Camera Position
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f); // Camera Direction
+glm::vec3 cameraPos = glm::vec3(-7.0f, 1.0f, 0.0f);  // Camera Position
+glm::vec3 cameraFront = glm::vec3(1.0f, 0.0f, 0.0f); // Camera Direction
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);    // Up vector for the camera
 
 float yaw = -90.0f;   // Yaw angle (left-right)
