@@ -56,6 +56,22 @@ public:
     }
 
 
+    // Set Vec3 uniform
+    void setVec3(const std::string& name, const glm::vec3& value) const {
+        GLint location = getUniformLocation(name);
+        glUniform3fv(location, 1, glm::value_ptr(value));
+    }
+
+
+    // Get the location of a uniform
+    GLint getUniformLocation(const std::string& name) const {
+        GLint location = glGetUniformLocation(ID, name.c_str());
+        if (location == -1) {
+            std::cerr << "Error: Uniform '" << name << "' not found in shader!" << std::endl;
+        }
+        return location;
+    }
+
     ~Shader() {
         glDeleteProgram(ID);
     }
@@ -98,6 +114,7 @@ private:
         buffer << file.rdbuf();
         return buffer.str();
     }
+
 };
 
 #endif // SHADER_H
