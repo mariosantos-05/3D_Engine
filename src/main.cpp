@@ -4,8 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-
 #include "Setup.h"
+
 #include "Shader.h"
 #include "FG.h"
 #include "Texture.h"
@@ -34,11 +34,10 @@ int main() {
 
 
     unsigned int pyramidTexture = loadTexture("assets/stonebase.png");
-        unsigned int pyramidNormalMap = loadTexture("assets/stonenormal.png");
-
-
+    unsigned int pyramidNormalMap = loadTexture("assets/stonenormal.png");
 
     unsigned int sphereTexture = loadTexture("assets/metal.png");
+    unsigned int sphereNormalMap = loadTexture("assets/normal.jpeg");
 
     if (!cubeTexture || !pyramidTexture || !sphereTexture) {
         std::cerr << "Texture loading failed!" << std::endl;
@@ -48,7 +47,7 @@ int main() {
     // Create 3D objects
     Cube myCube(cubeTexture, cubeNormalMap);
     Pyramid myPyramid(pyramidTexture, pyramidNormalMap);
-    Sphere mySphere(0.8f, sphereTexture);
+    Sphere mySphere(0.8f, sphereTexture, sphereNormalMap);
 
     // Main loop
     bool running = true;
@@ -116,7 +115,7 @@ int main() {
         // Draw Pyramid
         glm::mat4 pyramidModel = glm::mat4(1.0f);
         pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.5f, 0.0f));
-        pyramidModel = glm::rotate(pyramidModel, t, glm::vec3(0.0f, 1.0f, 0.0f));
+        //pyramidModel = glm::rotate(pyramidModel, t, glm::vec3(0.0f, 1.0f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(pyramidModel));
         myPyramid.Draw(myShader);
 
