@@ -1,11 +1,11 @@
-#include <SDL2/SDL.h>
 #include <glad/glad.h>
+#include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-
 #include "Setup.h"
+
 #include "Shader.h"
 #include "FG.h"
 #include "Texture.h"
@@ -29,9 +29,15 @@ int main() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Load Textures
-    unsigned int cubeTexture = loadTexture("assets/wood.png");
-    unsigned int pyramidTexture = loadTexture("assets/pedras.jpg");
-    unsigned int sphereTexture = loadTexture("assets/metal.png");
+    unsigned int cubeTexture = loadTexture("assets/oak_veneer_01_diff_4k.jpg");
+    unsigned int cubeNormalMap = loadTexture("assets/oak_veneer_01_nor_gl_1k.jpg");
+
+
+    unsigned int pyramidTexture = loadTexture("assets/stonebase.png");
+    unsigned int pyramidNormalMap = loadTexture("assets/stonenormal.png");
+
+    unsigned int sphereTexture = loadTexture("assets/Metal_007_basecolor.png");
+    unsigned int sphereNormalMap = loadTexture("assets/Metal_007_normal.png");
 
     if (!cubeTexture || !pyramidTexture || !sphereTexture) {
         std::cerr << "Texture loading failed!" << std::endl;
@@ -39,9 +45,9 @@ int main() {
     }
 
     // Create 3D objects
-    Cube myCube(cubeTexture);
-    Pyramid myPyramid(pyramidTexture);
-    Sphere mySphere(0.8f, sphereTexture);
+    Cube myCube(cubeTexture, cubeNormalMap);
+    Pyramid myPyramid(pyramidTexture, pyramidNormalMap);
+    Sphere mySphere(0.8f, sphereTexture, sphereNormalMap);
 
     // Main loop
     bool running = true;
@@ -70,7 +76,8 @@ int main() {
         processInput(win.window);
 
         // Clear buffers
-        glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
+        //glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Prepare camera

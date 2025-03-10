@@ -1,7 +1,6 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <glad/glad.h> // Make sure to include GLAD before OpenGL
 #include <string>
 #include <iostream>
 #include <fstream>

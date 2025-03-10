@@ -2,7 +2,6 @@
 #define GRID_H
 
 #include <vector>
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include "Shader.h"
 
