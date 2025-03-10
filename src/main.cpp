@@ -29,15 +29,15 @@ int main() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Load Textures
-    unsigned int cubeTexture = loadTexture("assets/wood.png");
-    unsigned int cubeNormalMap = loadTexture("assets/normal.jpeg");
+    unsigned int cubeTexture = loadTexture("assets/oak_veneer_01_diff_4k.jpg");
+    unsigned int cubeNormalMap = loadTexture("assets/oak_veneer_01_nor_gl_1k.jpg");
 
 
     unsigned int pyramidTexture = loadTexture("assets/stonebase.png");
     unsigned int pyramidNormalMap = loadTexture("assets/stonenormal.png");
 
-    unsigned int sphereTexture = loadTexture("assets/metal.png");
-    unsigned int sphereNormalMap = loadTexture("assets/normal.jpeg");
+    unsigned int sphereTexture = loadTexture("assets/Metal_007_basecolor.png");
+    unsigned int sphereNormalMap = loadTexture("assets/Metal_007_normal.png");
 
     if (!cubeTexture || !pyramidTexture || !sphereTexture) {
         std::cerr << "Texture loading failed!" << std::endl;
@@ -76,7 +76,8 @@ int main() {
         processInput(win.window);
 
         // Clear buffers
-        glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
+        //glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Prepare camera
@@ -107,22 +108,22 @@ int main() {
 
         // Draw Cube
         glm::mat4 cubeModel = glm::mat4(1.0f);
-        cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.5f, 0.0f));
         cubeModel = glm::rotate(cubeModel, t, glm::vec3(0.0f, 0.0f, 1.0f));
+        cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.5f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(cubeModel));
         myCube.Draw(myShader);
 
         // Draw Pyramid
         glm::mat4 pyramidModel = glm::mat4(1.0f);
+        pyramidModel = glm::rotate(pyramidModel, t, glm::vec3(0.0f, 1.0f, 0.0f));
         pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.5f, 0.0f));
-        //pyramidModel = glm::rotate(pyramidModel, t, glm::vec3(0.0f, 1.0f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(pyramidModel));
         myPyramid.Draw(myShader);
 
         // Draw Sphere
         glm::mat4 sphereModel = glm::mat4(1.0f);
-        sphereModel = glm::translate(sphereModel, glm::vec3(3.0f, 0.5f, 0.0f));
         sphereModel = glm::rotate(sphereModel, t, glm::vec3(1.0f, 1.0f, 1.0f));
+        sphereModel = glm::translate(sphereModel, glm::vec3(3.0f, 0.5f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(sphereModel));
         mySphere.draw(myShader);
 
