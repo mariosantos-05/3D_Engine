@@ -1,8 +1,7 @@
 #include <vector>
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Shader.h" // Assume you have a Shader class for managing shaders
+#include "Shader.h" 
 
 struct Cube {
     GLuint VAO, VBO, EBO;
@@ -242,110 +241,158 @@ struct Pyramid {
 
 
 
+#define NUM_LATITUDE_SEGMENTS 80
+#define NUM_LONGITUDE_SEGMENTS 80
 
-
-#define NUM_LATITUDE_SEGMENTS 80  // Number of latitude divisions
-#define NUM_LONGITUDE_SEGMENTS 80 // Number of longitude divisions
 struct Sphere {
     GLuint VAO, VBO, EBO;
-    GLuint textureID; // Texture ID for the sphere
+    GLuint textureID;     // Diffuse texture
+    GLuint normalMapID;   // Normal map texture
     float radius;
 
-    Sphere(float r, GLuint textureID) : radius(r), textureID(textureID) {
+    Sphere(float r, GLuint textureID, GLuint normalMapID)
+        : radius(r), textureID(textureID), normalMapID(normalMapID) {
         setupSphere();
     }
 
     void setupSphere() {
-        std::vector<float> vertices; // Interleaved vertex data: position, normal, texture coordinates
+        std::vector<float> vertices; // position, normal, texcoord, tangent
         std::vector<GLuint> indices;
-    
-        // Create vertices for the sphere using spherical coordinates
+
+        std::vector<glm::vec3> positions;
+        std::vector<glm::vec2> texCoords;
+        std::vector<glm::vec3> normals;
+
         for (int i = 0; i <= NUM_LATITUDE_SEGMENTS; ++i) {
-            float phi = glm::radians(i * 180.0f / NUM_LATITUDE_SEGMENTS); // Polar angle
+            float phi = glm::radians(i * 180.0f / NUM_LATITUDE_SEGMENTS);
             for (int j = 0; j <= NUM_LONGITUDE_SEGMENTS; ++j) {
-                float theta = glm::radians(j * 360.0f / NUM_LONGITUDE_SEGMENTS); // Azimuthal angle
-    
-                // Convert spherical coordinates to Cartesian coordinates
+                float theta = glm::radians(j * 360.0f / NUM_LONGITUDE_SEGMENTS);
+
                 float x = radius * sin(phi) * cos(theta);
                 float y = radius * sin(phi) * sin(theta);
                 float z = radius * cos(phi);
-    
-                // Calculate texture coordinates
+
                 float s = (float)j / NUM_LONGITUDE_SEGMENTS;
                 float t = (float)i / NUM_LATITUDE_SEGMENTS;
-    
-                // Add the vertex position, normal, and texture coordinates
-                vertices.push_back(x); // Position (x)
-                vertices.push_back(y); // Position (y)
-                vertices.push_back(z); // Position (z)
-    
-                // Normal is the normalized position
-                glm::vec3 normal = glm::normalize(glm::vec3(x, y, z));
-                vertices.push_back(normal.x); // Normal (x)
-                vertices.push_back(normal.y); // Normal (y)
-                vertices.push_back(normal.z); // Normal (z)
-    
-                vertices.push_back(s); // Texture coordinate (s)
-                vertices.push_back(t); // Texture coordinate (t)
+
+                glm::vec3 position = glm::vec3(x, y, z);
+                glm::vec3 normal = glm::normalize(position);
+                glm::vec2 texCoord = glm::vec2(s, t);
+
+                positions.push_back(position);
+                normals.push_back(normal);
+                texCoords.push_back(texCoord);
             }
         }
-    
-        // Create indices for the sphere's faces (using triangles)
+
         for (int i = 0; i < NUM_LATITUDE_SEGMENTS; ++i) {
             for (int j = 0; j < NUM_LONGITUDE_SEGMENTS; ++j) {
                 int first = i * (NUM_LONGITUDE_SEGMENTS + 1) + j;
                 int second = first + NUM_LONGITUDE_SEGMENTS + 1;
-    
-                // Create two triangles for each segment (top and bottom triangles)
+
                 indices.push_back(first);
                 indices.push_back(second);
                 indices.push_back(first + 1);
-    
+
                 indices.push_back(second);
                 indices.push_back(second + 1);
                 indices.push_back(first + 1);
             }
         }
-    
-        // Create VAO, VBO, and EBO
+
+        std::vector<glm::vec3> tangents(positions.size(), glm::vec3(0.0f));
+
+        // Tangent calculation
+        for (size_t i = 0; i < indices.size(); i += 3) {
+            GLuint i0 = indices[i];
+            GLuint i1 = indices[i + 1];
+            GLuint i2 = indices[i + 2];
+
+            glm::vec3 pos1 = positions[i0];
+            glm::vec3 pos2 = positions[i1];
+            glm::vec3 pos3 = positions[i2];
+
+            glm::vec2 uv1 = texCoords[i0];
+            glm::vec2 uv2 = texCoords[i1];
+            glm::vec2 uv3 = texCoords[i2];
+
+            glm::vec3 deltaPos1 = pos2 - pos1;
+            glm::vec3 deltaPos2 = pos3 - pos1;
+
+            glm::vec2 deltaUV1 = uv2 - uv1;
+            glm::vec2 deltaUV2 = uv3 - uv1;
+
+            float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+            glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y) * r;
+
+            tangents[i0] += tangent;
+            tangents[i1] += tangent;
+            tangents[i2] += tangent;
+        }
+
+        for (size_t i = 0; i < positions.size(); ++i) {
+            vertices.push_back(positions[i].x);
+            vertices.push_back(positions[i].y);
+            vertices.push_back(positions[i].z);
+
+            vertices.push_back(normals[i].x);
+            vertices.push_back(normals[i].y);
+            vertices.push_back(normals[i].z);
+
+            vertices.push_back(texCoords[i].x);
+            vertices.push_back(texCoords[i].y);
+
+            glm::vec3 tangent = glm::normalize(tangents[i]);
+            vertices.push_back(tangent.x);
+            vertices.push_back(tangent.y);
+            vertices.push_back(tangent.z);
+        }
+
+        // Create buffers
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
-    
+
         glBindVertexArray(VAO);
-    
-        // Vertex buffer
+
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-    
-        // Element buffer
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-    
-        // Vertex position attribute (location = 0 in shader)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+
+        // Position
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
-    
-        // Vertex normal attribute (location = 1 in shader)
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+
+        // Normal
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
-    
-        // Texture coordinate attribute (location = 2 in shader)
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+        // TexCoords
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
         glEnableVertexAttribArray(2);
-    
+
+        // Tangent
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+        glEnableVertexAttribArray(3);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
     }
 
     void draw(const Shader& shader) {
-        glActiveTexture(GL_TEXTURE0); // Activate texture unit 0
-        glBindTexture(GL_TEXTURE_2D, textureID); // Bind the sphere's texture
-        shader.setInt("texture1", 0); // Tell the shader to use texture unit 0
+        shader.use();
 
-        shader.use();  // Activate the shader program
+        // Bind diffuse and normal textures
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        shader.setInt("texture1", 0);
 
-        // Draw the sphere using indexed drawing
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, normalMapID);
+        shader.setInt("normalMap", 1);
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, NUM_LATITUDE_SEGMENTS * NUM_LONGITUDE_SEGMENTS * 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
