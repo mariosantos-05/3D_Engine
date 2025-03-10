@@ -1,5 +1,5 @@
-#include <SDL2/SDL.h>
 #include <glad/glad.h>
+#include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -30,7 +30,14 @@ int main() {
 
     // Load Textures
     unsigned int cubeTexture = loadTexture("assets/wood.png");
-    unsigned int pyramidTexture = loadTexture("assets/pedras.jpg");
+    unsigned int cubeNormalMap = loadTexture("assets/normal.jpeg");
+
+
+    unsigned int pyramidTexture = loadTexture("assets/stonebase.png");
+        unsigned int pyramidNormalMap = loadTexture("assets/stonenormal.png");
+
+
+
     unsigned int sphereTexture = loadTexture("assets/metal.png");
 
     if (!cubeTexture || !pyramidTexture || !sphereTexture) {
@@ -39,8 +46,8 @@ int main() {
     }
 
     // Create 3D objects
-    Cube myCube(cubeTexture);
-    Pyramid myPyramid(pyramidTexture);
+    Cube myCube(cubeTexture, cubeNormalMap);
+    Pyramid myPyramid(pyramidTexture, pyramidNormalMap);
     Sphere mySphere(0.8f, sphereTexture);
 
     // Main loop
@@ -101,22 +108,22 @@ int main() {
 
         // Draw Cube
         glm::mat4 cubeModel = glm::mat4(1.0f);
-        cubeModel = glm::rotate(cubeModel, t, glm::vec3(0.0f, 0.0f, 1.0f));
         cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.5f, 0.0f));
+        cubeModel = glm::rotate(cubeModel, t, glm::vec3(0.0f, 0.0f, 1.0f));
         myShader.setMat4("model", glm::value_ptr(cubeModel));
         myCube.Draw(myShader);
 
         // Draw Pyramid
         glm::mat4 pyramidModel = glm::mat4(1.0f);
-        pyramidModel = glm::rotate(pyramidModel, t, glm::vec3(0.0f, 1.0f, 0.0f));
         pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.5f, 0.0f));
+        pyramidModel = glm::rotate(pyramidModel, t, glm::vec3(0.0f, 1.0f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(pyramidModel));
         myPyramid.Draw(myShader);
 
         // Draw Sphere
         glm::mat4 sphereModel = glm::mat4(1.0f);
-        sphereModel = glm::rotate(sphereModel, t, glm::vec3(1.0f, 1.0f, 1.0f));
         sphereModel = glm::translate(sphereModel, glm::vec3(3.0f, 0.5f, 0.0f));
+        sphereModel = glm::rotate(sphereModel, t, glm::vec3(1.0f, 1.0f, 1.0f));
         myShader.setMat4("model", glm::value_ptr(sphereModel));
         mySphere.draw(myShader);
 
