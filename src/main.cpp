@@ -91,6 +91,15 @@ int main() {
 
         float t = SDL_GetTicks() / 1000.0f;
 
+        myShader.setVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+        myShader.setVec3("dirLight.color", glm::vec3(1.0f, 1.0f, 1.0f));
+
+        myShader.setVec3("spotLight.position", cameraPos);
+        myShader.setVec3("spotLight.direction", cameraFront);
+        myShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+        myShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(17.5f)));
+        myShader.setVec3("spotLight.color", glm::vec3(1.0f));
+
         // Lights
         const int NR_LIGHTS = 2;
         glm::vec3 lightPositions[NR_LIGHTS] = {
@@ -108,22 +117,22 @@ int main() {
 
         // Draw Cube
         glm::mat4 cubeModel = glm::mat4(1.0f);
-        cubeModel = glm::rotate(cubeModel, t, glm::vec3(0.0f, 0.0f, 1.0f));
         cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.5f, 0.0f));
+        cubeModel = glm::rotate(cubeModel, t, glm::vec3(0.0f, 0.0f, 1.0f));
         myShader.setMat4("model", glm::value_ptr(cubeModel));
         myCube.Draw(myShader);
 
         // Draw Pyramid
         glm::mat4 pyramidModel = glm::mat4(1.0f);
-        pyramidModel = glm::rotate(pyramidModel, t, glm::vec3(0.0f, 1.0f, 0.0f));
         pyramidModel = glm::translate(pyramidModel, glm::vec3(-1.0f, 0.5f, 0.0f));
+        pyramidModel = glm::rotate(pyramidModel, t, glm::vec3(0.0f, 1.0f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(pyramidModel));
         myPyramid.Draw(myShader);
 
         // Draw Sphere
         glm::mat4 sphereModel = glm::mat4(1.0f);
-        sphereModel = glm::rotate(sphereModel, t, glm::vec3(1.0f, 1.0f, 1.0f));
         sphereModel = glm::translate(sphereModel, glm::vec3(3.0f, 0.5f, 0.0f));
+        sphereModel = glm::rotate(sphereModel, t, glm::vec3(1.0f, 1.0f, 1.0f));
         myShader.setMat4("model", glm::value_ptr(sphereModel));
         mySphere.draw(myShader);
 
