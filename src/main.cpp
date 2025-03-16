@@ -5,12 +5,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include "Setup.h"
-
 #include "Shader.h"
 #include "FG.h"
 #include "Texture.h"
 #include "Grid.h"
+#include "Orbital.h" // Include the OrbitalCamera header file
 
+// Global camera
+OrbitalCamera camera(glm::vec3(0.0f), 10.0f, -90.0f, 0.0f);
 
 int main() {
     Window win(800, 600, "Main");
@@ -31,7 +33,6 @@ int main() {
     // Load Textures
     unsigned int cubeTexture = loadTexture("assets/oak_veneer_01_diff_4k.jpg");
     unsigned int cubeNormalMap = loadTexture("assets/oak_veneer_01_nor_gl_1k.jpg");
-
 
     unsigned int pyramidTexture = loadTexture("assets/stonebase.png");
     unsigned int pyramidNormalMap = loadTexture("assets/stonenormal.png");
@@ -69,6 +70,10 @@ int main() {
                     break;
                 case SDL_MOUSEMOTION:
                     handleMouseMotion(event.motion.xrel, event.motion.yrel);
+                    camera.ProcessMouseMovement(event.motion.xrel, event.motion.yrel);  // Update camera
+                    break;
+                case SDL_MOUSEWHEEL:
+                    camera.ProcessMouseScroll(event.wheel.y);  // Zoom in/out
                     break;
             }
         }
@@ -76,18 +81,17 @@ int main() {
         processInput(win.window);
 
         // Clear buffers
-        //glClearColor(0.29f, 0.29f, 0.29f, 1.0f);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Prepare camera
-        glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        glm::mat4 view = camera.GetViewMatrix();  // Get the view matrix from the orbital camera
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)win.width / win.height, 0.1f, 100.0f);
 
         myShader.use();
         myShader.setMat4("view", glm::value_ptr(view));
         myShader.setMat4("projection", glm::value_ptr(projection));
-        myShader.setVec3("viewPos", cameraPos);
+        myShader.setVec3("viewPos", camera.GetCameraPosition());
 
         float t = SDL_GetTicks() / 1000.0f;
 
@@ -109,6 +113,7 @@ int main() {
         // Draw Cube
         glm::mat4 cubeModel = glm::mat4(1.0f);
         cubeModel = glm::rotate(cubeModel, t, glm::vec3(0.0f, 0.0f, 1.0f));
+        cubeModel = glm::scale(cubeModel, glm::vec3(0.5f, 0.5f, 0.5f));
         cubeModel = glm::translate(cubeModel, glm::vec3(1.0f, 0.5f, 0.0f));
         myShader.setMat4("model", glm::value_ptr(cubeModel));
         myCube.Draw(myShader);
