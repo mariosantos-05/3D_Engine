@@ -10,6 +10,7 @@
 #include "FG.h"
 #include "Texture.h"
 #include "Grid.h"
+#include "Model.h"
 
 
 int main() {
@@ -19,6 +20,7 @@ int main() {
     // Shaders
     Shader myShader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
     Shader gridShader("shaders/grid_vertex.glsl", "shaders/grid_fragment.glsl");
+    Shader object("shaders/modelvertex.glsl", "shaders/modelfrag.glsl");
 
     // Objects
     Grid grid(500.0f, 1.0f, Grid::XZ_PLANE);
@@ -48,6 +50,7 @@ int main() {
     Cube myCube(cubeTexture, cubeNormalMap);
     Pyramid myPyramid(pyramidTexture, pyramidNormalMap);
     Sphere mySphere(0.8f, sphereTexture, sphereNormalMap);
+    Model model("models/miku_prefab.fbx");
 
     // Main loop
     bool running = true;
@@ -135,6 +138,13 @@ int main() {
         sphereModel = glm::rotate(sphereModel, t, glm::vec3(1.0f, 1.0f, 1.0f));
         myShader.setMat4("model", glm::value_ptr(sphereModel));
         mySphere.draw(myShader);
+
+
+        glm::mat4 modelmatrix = glm::mat4(1.0f);
+        modelmatrix = glm::translate(modelmatrix, glm::vec3(10.0f, 0.5f, 0.0f));
+        myShader.setMat4("model", glm::value_ptr(modelmatrix));
+        model.Draw(myShader);
+
 
         // Draw Grid
         grid.Draw(gridShader, view, projection);

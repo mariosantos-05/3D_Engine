@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <glm/gtc/type_ptr.hpp>
 
 class Shader {
 public:

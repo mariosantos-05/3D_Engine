@@ -14,7 +14,7 @@ find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)  
     
 # Add your executable
-add_executable(Engine src/main.cpp)
+add_executable(Engine src/main.cpp src/Model.cpp src/Mesh.cpp)
 
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR}/libs/glad/include)
@@ -22,8 +22,14 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/shaders)
 include_directories(${SDL2_INCLUDE_DIRS})  
 
+# --------------------
+# Assimp
+# --------------------
+find_package(assimp REQUIRED)
+include_directories(${ASSIMP_INCLUDE_DIRS})
+
 # Add the Glad library
 add_library(glad STATIC ${CMAKE_SOURCE_DIR}/libs/glad/src/glad.c)
 
 # Link libraries
-target_link_libraries(Engine glfw OpenGL::GL glad ${SDL2_LIBRARIES})  
+target_link_libraries(Engine glfw OpenGL::GL glad ${SDL2_LIBRARIES} ${ASSIMP_LIBRARIES})  
