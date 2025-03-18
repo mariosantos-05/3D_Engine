@@ -13,6 +13,7 @@
 #include "Grid.h"
 #include "Orbital.h"
 #include "Window.h"
+#include "Globals.h"
 
 
 extern unsigned int cubeTexture;

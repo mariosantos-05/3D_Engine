@@ -29,13 +29,13 @@ bool Setup::init() {
         return false;
     }
     SDL_SetRelativeMouseMode(SDL_TRUE);
-    return true;
-
+    
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+    
     loadTextures();
+    return true;
 }
 
 void Setup::use() {
@@ -78,6 +78,7 @@ void Setup::use() {
     myShader.setVec3("viewPos", camera.GetCameraPosition());
 
     setupLights();
+
 }
 
 void Setup::processInput() {

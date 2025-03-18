@@ -5,24 +5,25 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
+#include "Globals.h"
 #include "Setup.h"
 #include "FG.h"
 
 
 // Global camera
 OrbitalCamera camera(glm::vec3(0.0f), 10.0f, -90.0f, 0.0f);
-Setup setup(800, 800, "titulo");
+Setup setup(800, 600, "debug");
 
 
 int main() {
 
     setup.init();
     
-    /*// Create 3D objects
+    // Create 3D objects
     Cube myCube(cubeTexture, cubeNormalMap);
     Pyramid myPyramid(pyramidTexture, pyramidNormalMap);
     Sphere mySphere(0.8f, sphereTexture, sphereNormalMap);
-
+    
     // Main loop
     bool running = true;
     while (running) {
@@ -53,9 +54,9 @@ int main() {
 
         // Draw Grid
         setup.grid_draw();
-
+        
         SDL_GL_SwapWindow(setup.win.window);
-    }*/
+    }
 
     return 0;
 }
