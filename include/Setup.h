@@ -21,6 +21,7 @@ extern unsigned int pyramidTexture;
 extern unsigned int pyramidNormalMap;
 extern unsigned int sphereTexture;
 extern unsigned int sphereNormalMap;
+
 class Setup {
     public:
     Setup(int width, int height, const char* title);
@@ -33,7 +34,6 @@ class Setup {
     glm::mat4 getProjectionMatrix();
     
     void grid_draw();
-    Shader myShader;
     Window win;
 
     
@@ -43,9 +43,7 @@ private:
     
     OrbitalCamera camera;
     
-    Shader gridShader;
 
-    Grid grid;
 
     float deltaTime;
     float lastFrame;

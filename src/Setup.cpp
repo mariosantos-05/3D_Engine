@@ -7,13 +7,14 @@ unsigned int pyramidNormalMap;
 unsigned int sphereTexture;
 unsigned int sphereNormalMap;
 
+Shader myShader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
+Shader gridShader("shaders/grid_vertex.glsl", "shaders/grid_fragment.glsl");
+Grid grid(500.0f, 1.0f, Grid::XZ_PLANE);
 
 
 Setup::Setup(int width, int height, const char* title)
     : win(width, height, title), camera(), deltaTime(0.0f), lastFrame(0.0f), 
-      lastX(width / 2), lastY(height / 2), firstMouse(true), myShader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl"),
-      gridShader("shaders/grid_vertex.glsl", "shaders/grid_fragment.glsl"),
-      grid(500.0f, 1.0f, Grid::XZ_PLANE) {
+      lastX(width / 2), lastY(height / 2), firstMouse(true){
     if (!init()) std::cerr << "Initialization failed!" << std::endl;
 
     
