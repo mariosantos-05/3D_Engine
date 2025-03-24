@@ -10,8 +10,7 @@
 extern Shader myShader;
 extern Shader gridShader;
 extern Grid grid;
-extern Window win;
-extern OrbitalCamera camera;
+
 
 
 #endif

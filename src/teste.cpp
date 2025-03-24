@@ -3,8 +3,10 @@
 #include "Globals.h"
 
 int main() {
-    Setup set(800, 600, "teste");
+    Setup set(1000, 800, "teste");
+    set.Shaders();
     set.Init();
+    
 
     return 0;
 }

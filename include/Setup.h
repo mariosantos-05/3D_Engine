@@ -16,16 +16,21 @@
 #include "Globals.h"
 
 
+
 class Setup
 {
 private:
     /* data */
     OrbitalCamera camera;
     Window win;
+    Shader myShader;
+    Shader gridShader;
+
 public:
     Setup(int width, int height, const char* title);
 
     void Init();
+    void Shaders();
     ~Setup();
 };
 
