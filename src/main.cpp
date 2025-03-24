@@ -1,20 +1,11 @@
 #include <glad/glad.h>
-#include <SDL2/SDL.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <iostream>
 #include "Setup.h"
-#include "Shader.h"
-#include "FG.h"
-#include "Texture.h"
-#include "Grid.h"
-#include "Orbital.h" // Include the OrbitalCamera header file
-
-// Global camera
-OrbitalCamera camera(glm::vec3(0.0f), 10.0f, -90.0f, 0.0f);
+#include "Globals.h"
 
 int main() {
+    Setup set(800, 600, "teste");
+    //Setup set;
+    /*OrbitalCamera camera(glm::vec3(0.0f), 10.0f, -90.0f, 0.0f);
     Window win(800, 600, "Main");
     if (!win.init()) return -1;
 
@@ -23,7 +14,7 @@ int main() {
     Shader gridShader("shaders/grid_vertex.glsl", "shaders/grid_fragment.glsl");
 
     // Objects
-    Grid grid(500.0f, 1.0f, Grid::XZ_PLANE);
+    Grid grid(500.0f, 1.0f, Grid::XZ_PLANE);*/
 
     // Enable OpenGL settings
     glEnable(GL_DEPTH_TEST);
@@ -53,32 +44,10 @@ int main() {
     // Main loop
     bool running = true;
     while (running) {
-        float currentFrame = SDL_GetTicks() / 1000.0f;
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
 
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
-                    running = false;
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    SDL_WarpMouseInWindow(win.window, win.width / 2, win.height / 2);
-                    lastX = win.width / 2;
-                    lastY = win.height / 2;
-                    break;
-                case SDL_MOUSEMOTION:
-                    handleMouseMotion(event.motion.xrel, event.motion.yrel);
-                    camera.ProcessMouseMovement(event.motion.xrel, event.motion.yrel);  // Update camera
-                    break;
-                case SDL_MOUSEWHEEL:
-                    camera.ProcessMouseScroll(event.wheel.y);  // Zoom in/out
-                    break;
-            }
-        }
-
-        processInput(win.window);
+        camera.HandleEvent(event,win, camera, running);
+        
 
         // Clear buffers
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

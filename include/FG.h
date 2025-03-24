@@ -1,8 +1,11 @@
+#ifndef FG_H
+#define FG_H
+
 #include <vector>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Shader.h" // Assume you have a Shader class for managing shaders
+#include "Shader.h"
 
 struct Cube {
     GLuint VAO, VBO, EBO;
@@ -122,10 +125,7 @@ struct Cube {
         glDeleteBuffers(1, &EBO);
     }
 };
-#include <vector>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include "Shader.h"
+
 
 struct Pyramid {
     GLuint VAO, VBO, EBO;
@@ -240,18 +240,6 @@ struct Pyramid {
     }
 };
 
-
-
-
-#ifndef SPHERE_H
-#define SPHERE_H
-
-#include <vector>
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/constants.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include "Shader.h"
 
 #define NUM_LATITUDE_SEGMENTS 64
 #define NUM_LONGITUDE_SEGMENTS 64
