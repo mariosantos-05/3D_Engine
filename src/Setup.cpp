@@ -1,18 +1,14 @@
 #include "Setup.h"
+#include "glm/gtc/type_ptr.hpp"
 
 
 OrbitalCamera camera(glm::vec3(0.0f), 10.0f, -90.0f, 0.0f);
 Window win(800, 600, "Main");
 
 // Shaders
-Shader teste("opath", "path");
-
-// Objects
-
-
 
 Setup::Setup(int width, int height, const char* title)
-: win(width, height, title), camera(),myShader(), gridShader() {
+: win(width, height, title), camera(), myShader("/home/mario/projetos/3D_Engine/shaders/vertexShader.glsl", "/home/mario/projetos/3D_Engine/shaders/fragmentShader.glsl"), gridShader("/home/mario/projetos/3D_Engine/shaders/grid_vertex.glsl", "/home/mario/projetos/3D_Engine/shaders/grid_fragment.glsl"), grid(500.0f, 1.0f, Grid::XZ_PLANE) {
     if (!win.init()) std::cerr << "Initialization failed!" << std::endl;
 }
 
@@ -42,6 +38,15 @@ void Setup::Init(){
         
         SDL_GL_SwapWindow(win.window);
     }
+}
+
+void Setup::SetShader(Shader general, Shader grid){
+    myShader = general;
+    gridShader = grid;
+}
+
+void Setup::SetGrid(Grid grid){
+    this->grid = grid;
 }
 
 void Setup::Shaders(){
